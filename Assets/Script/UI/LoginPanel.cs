@@ -21,26 +21,21 @@ public class LoginPanel : MonoBehaviour
 
     private void Start()
     {
-        // Setup button listeners
         loginButton.onClick.AddListener(OnLoginButtonClicked);
         signupButton.onClick.AddListener(OnSignupButtonClicked);
 
-        // Hide error text
         if (errorText != null)
             errorText.gameObject.SetActive(false);
 
-        // Hide loading panel
         if (loadingPanel != null)
             loadingPanel.SetActive(false);
 
-        // Subscribe to auth events
         AuthManager.Instance.OnLoginSuccess += OnLoginSuccess;
         AuthManager.Instance.OnLoginFailed += OnLoginFailed;
     }
 
     private void OnDestroy()
     {
-        // Unsubscribe from events
         if (AuthManager.Instance != null)
         {
             AuthManager.Instance.OnLoginSuccess -= OnLoginSuccess;
@@ -53,7 +48,6 @@ public class LoginPanel : MonoBehaviour
         string email = emailInput.text.Trim();
         string password = passwordInput.text;
 
-        // Validation
         if (string.IsNullOrEmpty(email))
         {
             ShowError("Email không được để trống");
@@ -78,17 +72,14 @@ public class LoginPanel : MonoBehaviour
             return;
         }
 
-        // Show loading
         ShowLoading(true);
         HideError();
 
-        // Call login
         AuthManager.Instance.Login(email, password);
     }
 
     private void OnSignupButtonClicked()
     {
-        // ✅ Chuyển sang SignUp Panel
         gameObject.SetActive(false);
         
         if (signUpPanel != null)
@@ -103,7 +94,6 @@ public class LoginPanel : MonoBehaviour
     {
         ShowLoading(false);
         Debug.Log($"Login successful! Welcome {user.username}");
-        // AuthManager sẽ tự động load HomePage Scene
     }
 
     private void OnLoginFailed(string errorMessage)

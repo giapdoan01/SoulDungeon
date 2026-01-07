@@ -15,10 +15,9 @@ public class SignUpPanel : MonoBehaviour
 
     [Header("UI Elements")]
     public TextMeshProUGUI errorText;
-    // ❌ KHÔNG CÓ loading panel
 
     [Header("Panel References")]
-    public GameObject loginPanel; // ✅ Reference đến Login Panel
+    public GameObject loginPanel;
 
     private void Start()
     {
@@ -88,7 +87,6 @@ public class SignUpPanel : MonoBehaviour
             return;
         }
 
-        // ✅ KHÔNG CÓ loading panel, gọi register trực tiếp
         HideError();
 
         // Disable inputs during register
@@ -100,7 +98,6 @@ public class SignUpPanel : MonoBehaviour
 
     private void OnLoginButtonClicked()
     {
-        // ✅ Chuyển sang Login Panel
         gameObject.SetActive(false);
         
         if (loginPanel != null)
@@ -115,16 +112,12 @@ public class SignUpPanel : MonoBehaviour
     {
         Debug.Log($"Register successful! Welcome {user.username}");
         
-        // ✅ Đăng ký thành công → Chuyển sang Login Panel
         gameObject.SetActive(false);
         
         if (loginPanel != null)
         {
             loginPanel.SetActive(true);
         }
-        
-        // Note: AuthManager sẽ tự động load HomePage Scene sau khi register
-        // Nếu muốn user phải login lại thì comment dòng trên
     }
 
     private void OnRegisterFailed(string errorMessage)
@@ -172,7 +165,6 @@ public class SignUpPanel : MonoBehaviour
         }
     }
 
-    // Public method để LoginPanel có thể gọi
     public void ShowPanel()
     {
         gameObject.SetActive(true);

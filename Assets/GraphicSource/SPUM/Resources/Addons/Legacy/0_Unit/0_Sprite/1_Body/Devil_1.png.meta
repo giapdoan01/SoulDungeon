@@ -292,6 +292,28 @@ TextureImporter:
       indices: 
       edges: []
       weights: []
+    - serializedVersion: 2
+      name: UINone
+      rect:
+        serializedVersion: 2
+        x: 18
+        y: 26
+        width: 3
+        height: 3
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 9affcefc841a1e044a2665677506e0fd
+      internalID: -180636370
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
     outline: []
     customData: 
     physicsShape: []
@@ -312,6 +334,7 @@ TextureImporter:
       Foot_L: 2675712916346743467
       Foot_R: -5270012114556193762
       Head: 7361893253669169354
+      UINone: -180636370
   mipmapLimitGroupName: 
   pSDRemoveMatte: 0
   userData: 
