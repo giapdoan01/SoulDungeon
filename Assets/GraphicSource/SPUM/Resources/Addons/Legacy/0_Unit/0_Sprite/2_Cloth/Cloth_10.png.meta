@@ -217,6 +217,28 @@ TextureImporter:
       indices: 
       edges: []
       weights: []
+    - serializedVersion: 2
+      name: Cloth_Image
+      rect:
+        serializedVersion: 2
+        x: 4
+        y: 11
+        width: 24
+        height: 9
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: c69a12d9a6a4c0f469ed8c107d9151ad
+      internalID: 2001281343
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
     outline: []
     customData: 
     physicsShape: []
@@ -232,6 +254,7 @@ TextureImporter:
       entries: []
     nameFileIdTable:
       Body: 9071153741043795472
+      Cloth_Image: 2001281343
       Left: -3137994370387717294
       Right: -4607344544876785824
   mipmapLimitGroupName: 

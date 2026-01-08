@@ -12,14 +12,6 @@ public class ItemImage : MonoBehaviour
         {
             itemImage = GetComponent<Image>();
         }
-
-        if (itemImage != null)
-        {
-            itemImage.sprite = sprite;
-        }
-        else
-        {
-            Debug.LogWarning("No Image component found on ItemImage");
-        }
+        SetSizeImage.Instance.SetSizeSprite(itemImage, sprite);
     }
 }

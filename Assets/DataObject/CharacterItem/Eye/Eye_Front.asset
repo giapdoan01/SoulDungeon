@@ -13,8 +13,7 @@ MonoBehaviour:
   m_Name: Eye_Front
   m_EditorClassIdentifier: Assembly-CSharp::ListItem
   itemSprites:
-  - {fileID: -227387616865308203, guid: 45e990fcc26754c2ebdcb9d89be8d65b, type: 3}
-  - {fileID: -227387616865308203, guid: e2579aadb18ab4cf1b2461fb9e0f0cdf, type: 3}
+  - {fileID: -180636370, guid: 9dbef0fdede574b5fad7cc4a7adcda48, type: 3}
   - {fileID: -1768198379662571117, guid: 317140fbba14844a3b93f39a688ff60a, type: 3}
   - {fileID: -5273283658981390841, guid: a956e577cf9364311a98ed24c3bad799, type: 3}
   - {fileID: 2068004828273715603, guid: b93999d07022b4f388c4508c844cb984, type: 3}

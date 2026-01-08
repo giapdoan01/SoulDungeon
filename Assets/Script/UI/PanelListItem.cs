@@ -15,7 +15,7 @@ public class PanelListItem : MonoBehaviour
         panel.SetActive(false);
     }
 
-    public void ShowPanel(ListItem listItem, MenuSelectType type)
+    public void ShowPanel(ListItem listItem, ItemSelectType type)
     {
         panel.SetActive(true);
         PopulateItem(itemPrefab, listItem, type);  
@@ -26,7 +26,7 @@ public class PanelListItem : MonoBehaviour
         ClearItems();
     }
 
-    public void PopulateItem(GameObject itemPrefab, ListItem listItem, MenuSelectType type)
+    public void PopulateItem(GameObject itemPrefab, ListItem listItem, ItemSelectType type)
     {
         ClearItems();
 
@@ -41,7 +41,6 @@ public class PanelListItem : MonoBehaviour
             GameObject item = Instantiate(itemPrefab, container);
             item.name = $"EyeItem_{i}";
 
-            // Setup image
             ItemImage itemImage = item.GetComponent<ItemImage>();
             if (itemImage != null)
             {
