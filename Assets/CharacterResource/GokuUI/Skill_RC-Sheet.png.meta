@@ -1,0 +1,904 @@
+fileFormatVersion: 2
+guid: 6cc286d8fe37fc24aaa2b8ee8d2fe5b1
+TextureImporter:
+  internalIDToNameTable:
+  - first:
+      213: -297507675755734581
+    second: Skill_RC-Sheet_0
+  - first:
+      213: 3080378379403303929
+    second: Skill_RC-Sheet_1
+  - first:
+      213: 1493184925936914911
+    second: Skill_RC-Sheet_2
+  - first:
+      213: 2954701383011990038
+    second: Skill_RC-Sheet_3
+  - first:
+      213: 5200362657681172224
+    second: Skill_RC-Sheet_4
+  - first:
+      213: 5312677153835744224
+    second: Skill_RC-Sheet_5
+  - first:
+      213: -7442201888913525070
+    second: Skill_RC-Sheet_6
+  - first:
+      213: 8639931804550837055
+    second: Skill_RC-Sheet_7
+  - first:
+      213: -7345926241447585821
+    second: Skill_RC-Sheet_8
+  - first:
+      213: 8075308952244214934
+    second: Skill_RC-Sheet_9
+  - first:
+      213: -2707439715941953242
+    second: Skill_RC-Sheet_10
+  - first:
+      213: 2438936521160719356
+    second: Skill_RC-Sheet_11
+  - first:
+      213: 5818571890309464672
+    second: Skill_RC-Sheet_12
+  - first:
+      213: -5763086884035240716
+    second: Skill_RC-Sheet_13
+  - first:
+      213: 1800605055598293445
+    second: Skill_RC-Sheet_14
+  - first:
+      213: -476544084997628578
+    second: Skill_RC-Sheet_15
+  - first:
+      213: 3277844341874025485
+    second: Skill_RC-Sheet_16
+  - first:
+      213: -8861304344527513606
+    second: Skill_RC-Sheet_17
+  - first:
+      213: 409597153672294230
+    second: Skill_RC-Sheet_18
+  - first:
+      213: 6590654928953117764
+    second: Skill_RC-Sheet_19
+  - first:
+      213: 8232960446910830212
+    second: Skill_RC-Sheet_20
+  - first:
+      213: -2109446066469457444
+    second: Skill_RC-Sheet_21
+  - first:
+      213: 7505689221918170306
+    second: Skill_RC-Sheet_22
+  - first:
+      213: 2856435896003206928
+    second: Skill_RC-Sheet_23
+  - first:
+      213: 8006366260333227480
+    second: Skill_RC-Sheet_24
+  - first:
+      213: 214651395664959396
+    second: Skill_RC-Sheet_25
+  - first:
+      213: -940990055759304868
+    second: Skill_RC-Sheet_26
+  - first:
+      213: -7673130732474604511
+    second: Skill_RC-Sheet_27
+  - first:
+      213: -6489163464250401165
+    second: Skill_RC-Sheet_28
+  - first:
+      213: -8837694174688465548
+    second: Skill_RC-Sheet_29
+  - first:
+      213: -7097495124807422786
+    second: Skill_RC-Sheet_30
+  - first:
+      213: 6446077093293621047
+    second: Skill_RC-Sheet_31
+  - first:
+      213: -823706751857752795
+    second: Skill_RC-Sheet_32
+  - first:
+      213: 1537732795521607090
+    second: Skill_RC-Sheet_33
+  - first:
+      213: 4295355211849549859
+    second: Skill_RC-Sheet_34
+  - first:
+      213: 4599179050109370598
+    second: Skill_RC-Sheet_35
+  - first:
+      213: -5380365776158635233
+    second: Skill_RC-Sheet_36
+  - first:
+      213: 1025427607766203746
+    second: Skill_RC-Sheet_37
+  - first:
+      213: -4113607276297932568
+    second: Skill_RC-Sheet_38
+  - first:
+      213: -2572792988023893290
+    second: Skill_RC-Sheet_39
+  - first:
+      213: 4173701636215981337
+    second: Skill_RC-Sheet_40
+  - first:
+      213: 789925872546921649
+    second: Skill_RC-Sheet_41
+  - first:
+      213: -3601172627079137400
+    second: Skill_RC-Sheet_42
+  - first:
+      213: -6461934292630770871
+    second: Skill_RC-Sheet_43
+  - first:
+      213: 5602724524390202320
+    second: Skill_RC-Sheet_44
+  - first:
+      213: -1536797724918062803
+    second: Skill_RC-Sheet_45
+  - first:
+      213: 5267236304340850874
+    second: Skill_RC-Sheet_46
+  - first:
+      213: -2828317599926938940
+    second: Skill_RC-Sheet_47
+  - first:
+      213: 4337097686690203926
+    second: Skill_RC-Sheet_48
+  - first:
+      213: -2725640899062328517
+    second: Skill_RC-Sheet_49
+  - first:
+      213: 6516548376086173856
+    second: Skill_RC-Sheet_50
+  - first:
+      213: 6173734188522476887
+    second: Skill_RC-Sheet_51
+  - first:
+      213: -511395262578259913
+    second: Skill_RC-Sheet_52
+  - first:
+      213: -4563939420621686173
+    second: Skill_RC-Sheet_53
+  - first:
+      213: -6930035782647067428
+    second: Skill_RC-Sheet_54
+  - first:
+      213: -7853298036724803047
+    second: Skill_RC-Sheet_55
+  - first:
+      213: -7812140788167028746
+    second: Skill_RC-Sheet_56
+  - first:
+      213: 2502739452099847693
+    second: Skill_RC-Sheet_57
+  externalObjects: {}
+  serializedVersion: 13
+  mipmaps:
+    mipMapMode: 1
+    enableMipMap: 1
+    sRGBTexture: 1
+    linearTexture: 0
+    fadeOut: 0
+    borderMipMap: 0
+    mipMapsPreserveCoverage: 0
+    alphaTestReferenceValue: 0.5
+    mipMapFadeDistanceStart: 1
+    mipMapFadeDistanceEnd: 3
+  bumpmap:
+    convertToNormalMap: 0
+    externalNormalMap: 0
+    heightScale: 0.25
+    normalMapFilter: 0
+    flipGreenChannel: 0
+  isReadable: 0
+  streamingMipmaps: 0
+  streamingMipmapsPriority: 0
+  vTOnly: 0
+  ignoreMipmapLimit: 0
+  grayScaleToAlpha: 0
+  generateCubemap: 6
+  cubemapConvolution: 0
+  seamlessCubemap: 0
+  textureFormat: 1
+  maxTextureSize: 2048
+  textureSettings:
+    serializedVersion: 2
+    filterMode: 1
+    aniso: 1
+    mipBias: 0
+    wrapU: 1
+    wrapV: 1
+    wrapW: 1
+  nPOTScale: 0
+  lightmap: 0
+  compressionQuality: 50
+  spriteMode: 2
+  spriteExtrude: 1
+  spriteMeshType: 0
+  alignment: 0
+  spritePivot: {x: 0.5, y: 0.5}
+  spritePixelsToUnits: 100
+  spriteBorder: {x: 0, y: 0, z: 0, w: 0}
+  spriteGenerateFallbackPhysicsShape: 1
+  alphaUsage: 1
+  alphaIsTransparency: 1
+  spriteTessellationDetail: -1
+  textureType: 8
+  textureShape: 1
+  singleChannelComponent: 0
+  flipbookRows: 1
+  flipbookColumns: 1
+  maxTextureSizeSet: 0
+  compressionQualitySet: 0
+  textureFormatSet: 0
+  ignorePngGamma: 0
+  applyGammaDecoding: 0
+  swizzle: 50462976
+  cookieLightType: 0
+  platformSettings:
+  - serializedVersion: 4
+    buildTarget: DefaultTexturePlatform
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    ignorePlatformSupport: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 0
+  - serializedVersion: 4
+    buildTarget: Standalone
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    ignorePlatformSupport: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 0
+  - serializedVersion: 4
+    buildTarget: WebGL
+    maxTextureSize: 4096
+    resizeAlgorithm: 0
+    textureFormat: 12
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 1
+    ignorePlatformSupport: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 0
+  spriteSheet:
+    serializedVersion: 2
+    sprites:
+    - serializedVersion: 2
+      name: Skill_RC-Sheet_0
+      rect:
+        serializedVersion: 2
+        x: 0
+        y: 0
+        width: 548
+        height: 533
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: bc990ac585a0fdbf0800000000000000
+      internalID: -297507675755734581
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Skill_RC-Sheet_1
+      rect:
+        serializedVersion: 2
+        x: 548
+        y: 0
+        width: 548
+        height: 533
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 9fb9026c0d3bfba20800000000000000
+      internalID: 3080378379403303929
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Skill_RC-Sheet_2
+      rect:
+        serializedVersion: 2
+        x: 1096
+        y: 0
+        width: 548
+        height: 533
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: fd1107667cbd8b410800000000000000
+      internalID: 1493184925936914911
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Skill_RC-Sheet_3
+      rect:
+        serializedVersion: 2
+        x: 1644
+        y: 0
+        width: 548
+        height: 533
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 61af8cfc045310920800000000000000
+      internalID: 2954701383011990038
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Skill_RC-Sheet_4
+      rect:
+        serializedVersion: 2
+        x: 2192
+        y: 0
+        width: 548
+        height: 533
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 007ea42d8466b2840800000000000000
+      internalID: 5200362657681172224
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Skill_RC-Sheet_5
+      rect:
+        serializedVersion: 2
+        x: 2740
+        y: 0
+        width: 548
+        height: 533
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 0eb76b049bb6ab940800000000000000
+      internalID: 5312677153835744224
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Skill_RC-Sheet_6
+      rect:
+        serializedVersion: 2
+        x: 3288
+        y: 0
+        width: 548
+        height: 533
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 2b6719000dcf7b890800000000000000
+      internalID: -7442201888913525070
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Skill_RC-Sheet_7
+      rect:
+        serializedVersion: 2
+        x: 3836
+        y: 0
+        width: 548
+        height: 533
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: f333add233437e770800000000000000
+      internalID: 8639931804550837055
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Skill_RC-Sheet_8
+      rect:
+        serializedVersion: 2
+        x: 4384
+        y: 0
+        width: 548
+        height: 533
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 3e7db48f0070e0a90800000000000000
+      internalID: -7345926241447585821
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Skill_RC-Sheet_9
+      rect:
+        serializedVersion: 2
+        x: 4932
+        y: 0
+        width: 548
+        height: 533
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 69c5c0e05b2411070800000000000000
+      internalID: 8075308952244214934
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Skill_RC-Sheet_10
+      rect:
+        serializedVersion: 2
+        x: 5480
+        y: 0
+        width: 548
+        height: 533
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 621de784ced3d6ad0800000000000000
+      internalID: -2707439715941953242
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Skill_RC-Sheet_11
+      rect:
+        serializedVersion: 2
+        x: 6028
+        y: 0
+        width: 548
+        height: 533
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: cfbf28d08d7d8d120800000000000000
+      internalID: 2438936521160719356
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Skill_RC-Sheet_12
+      rect:
+        serializedVersion: 2
+        x: 6576
+        y: 0
+        width: 548
+        height: 533
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 06208fd5e48bfb050800000000000000
+      internalID: 5818571890309464672
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Skill_RC-Sheet_13
+      rect:
+        serializedVersion: 2
+        x: 7124
+        y: 0
+        width: 548
+        height: 533
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 4fcdd5b53076500b0800000000000000
+      internalID: -5763086884035240716
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Skill_RC-Sheet_14
+      rect:
+        serializedVersion: 2
+        x: 7672
+        y: 0
+        width: 548
+        height: 533
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 5c175bf02c80df810800000000000000
+      internalID: 1800605055598293445
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Skill_RC-Sheet_15
+      rect:
+        serializedVersion: 2
+        x: 8220
+        y: 0
+        width: 548
+        height: 533
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: e5d17e5fda9f269f0800000000000000
+      internalID: -476544084997628578
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Skill_RC-Sheet_16
+      rect:
+        serializedVersion: 2
+        x: 8768
+        y: 0
+        width: 548
+        height: 533
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: d04ec6aef0e3d7d20800000000000000
+      internalID: 3277844341874025485
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Skill_RC-Sheet_17
+      rect:
+        serializedVersion: 2
+        x: 9316
+        y: 0
+        width: 548
+        height: 533
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: af7dfc9d5a2560580800000000000000
+      internalID: -8861304344527513606
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Skill_RC-Sheet_18
+      rect:
+        serializedVersion: 2
+        x: 9864
+        y: 0
+        width: 548
+        height: 533
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 65fe5ade07e2fa500800000000000000
+      internalID: 409597153672294230
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Skill_RC-Sheet_19
+      rect:
+        serializedVersion: 2
+        x: 10412
+        y: 0
+        width: 548
+        height: 533
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 44c8d653db5b67b50800000000000000
+      internalID: 6590654928953117764
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Skill_RC-Sheet_20
+      rect:
+        serializedVersion: 2
+        x: 10960
+        y: 0
+        width: 548
+        height: 533
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 48616f708e9514270800000000000000
+      internalID: 8232960446910830212
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Skill_RC-Sheet_21
+      rect:
+        serializedVersion: 2
+        x: 11508
+        y: 0
+        width: 548
+        height: 533
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: cd13e379afdb9b2e0800000000000000
+      internalID: -2109446066469457444
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Skill_RC-Sheet_22
+      rect:
+        serializedVersion: 2
+        x: 12056
+        y: 0
+        width: 548
+        height: 533
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 2cc19ea9490992860800000000000000
+      internalID: 7505689221918170306
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Skill_RC-Sheet_23
+      rect:
+        serializedVersion: 2
+        x: 12604
+        y: 0
+        width: 548
+        height: 533
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 01f12f8305914a720800000000000000
+      internalID: 2856435896003206928
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Skill_RC-Sheet_24
+      rect:
+        serializedVersion: 2
+        x: 13152
+        y: 0
+        width: 548
+        height: 533
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 8dda5d8b1b35c1f60800000000000000
+      internalID: 8006366260333227480
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Skill_RC-Sheet_25
+      rect:
+        serializedVersion: 2
+        x: 13700
+        y: 0
+        width: 548
+        height: 533
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 4a7d62d9e489af200800000000000000
+      internalID: 214651395664959396
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    outline: []
+    customData: 
+    physicsShape: []
+    bones: []
+    spriteID: 678ece5212226db45b6c9cde0cc4b829
+    internalID: 0
+    vertices: []
+    indices: 
+    edges: []
+    weights: []
+    secondaryTextures: []
+    spriteCustomMetadata:
+      entries:
+      - key: SpriteEditor.SliceSettings
+        value: '{"sliceOnImport":false,"gridCellCount":{"x":1.0,"y":1.0},"gridSpriteSize":{"x":548.0,"y":533.0},"gridSpriteOffset":{"x":0.0,"y":0.0},"gridSpritePadding":{"x":0.0,"y":0.0},"pivot":{"x":0.5,"y":0.5},"pivotPixels":{"x":0.0,"y":0.0},"autoSlicingMethod":0,"spriteAlignment":0,"pivotUnitMode":0,"slicingType":1,"keepEmptyRects":false,"isAlternate":false}'
+    nameFileIdTable:
+      Skill_RC-Sheet_0: -297507675755734581
+      Skill_RC-Sheet_1: 3080378379403303929
+      Skill_RC-Sheet_10: -2707439715941953242
+      Skill_RC-Sheet_11: 2438936521160719356
+      Skill_RC-Sheet_12: 5818571890309464672
+      Skill_RC-Sheet_13: -5763086884035240716
+      Skill_RC-Sheet_14: 1800605055598293445
+      Skill_RC-Sheet_15: -476544084997628578
+      Skill_RC-Sheet_16: 3277844341874025485
+      Skill_RC-Sheet_17: -8861304344527513606
+      Skill_RC-Sheet_18: 409597153672294230
+      Skill_RC-Sheet_19: 6590654928953117764
+      Skill_RC-Sheet_2: 1493184925936914911
+      Skill_RC-Sheet_20: 8232960446910830212
+      Skill_RC-Sheet_21: -2109446066469457444
+      Skill_RC-Sheet_22: 7505689221918170306
+      Skill_RC-Sheet_23: 2856435896003206928
+      Skill_RC-Sheet_24: 8006366260333227480
+      Skill_RC-Sheet_25: 214651395664959396
+      Skill_RC-Sheet_3: 2954701383011990038
+      Skill_RC-Sheet_4: 5200362657681172224
+      Skill_RC-Sheet_5: 5312677153835744224
+      Skill_RC-Sheet_6: -7442201888913525070
+      Skill_RC-Sheet_7: 8639931804550837055
+      Skill_RC-Sheet_8: -7345926241447585821
+      Skill_RC-Sheet_9: 8075308952244214934
+  mipmapLimitGroupName: 
+  pSDRemoveMatte: 0
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 

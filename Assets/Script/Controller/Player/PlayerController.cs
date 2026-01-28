@@ -83,4 +83,7 @@ public class PlayerController : MonoBehaviour
         float speed = moveInput.magnitude;
         animator.SetFloat("Speed", speed);
     }
+
+    // Getter để Factory có thể check facing
+    public bool IsFacingRight() => facingRight;
 }
