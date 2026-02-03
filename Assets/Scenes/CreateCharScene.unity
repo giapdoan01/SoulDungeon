@@ -2804,7 +2804,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::SkillFactory
   skillQPrefab: {fileID: 8730924206384814105, guid: f0a2b914a50c38e42b7252ae0ede4717, type: 3}
-  skillRCPrefab: {fileID: 6441495347338719590, guid: 6a1ca40347803c144bc10d6076212890, type: 3}
+  skillRCPrefab: {fileID: 620438709755702206, guid: 6a1ca40347803c144bc10d6076212890, type: 3}
   skillSpawnPoint: {fileID: 747847405}
   mainCamera: {fileID: 0}
   qCooldown: 0.2
