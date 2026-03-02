@@ -193,6 +193,13 @@
       "dependencies": {},
       "url": "https://packages.unity.com"
     },
+    "com.unity.nuget.newtonsoft-json": {
+      "version": "3.2.2",
+      "depth": 0,
+      "source": "registry",
+      "dependencies": {},
+      "url": "https://packages.unity.com"
+    },
     "com.unity.postprocessing": {
       "version": "3.5.1",
       "depth": 0,
@@ -307,13 +314,6 @@
       "source": "git",
       "dependencies": {},
       "hash": "610157ad762084380380148ba8ce14e266a6da97"
-    },
-    "io.colyseus.sdk": {
-      "version": "https://github.com/colyseus/colyseus-unity3d.git#upm",
-      "depth": 0,
-      "source": "git",
-      "dependencies": {},
-      "hash": "8b1866b9eedecb0c8c48224cf04ae0b144e36725"
     },
     "com.unity.modules.accessibility": {
       "version": "1.0.0",

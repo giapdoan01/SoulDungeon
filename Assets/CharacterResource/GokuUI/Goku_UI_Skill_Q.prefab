@@ -5023,5 +5023,5 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::GokuSkillQ
   speed: 10
-  maxDistance: 10
-  skillParticle: {fileID: 0}
+  maxDistance: 5
+  skillParticle: {fileID: 1422174531928668010}
