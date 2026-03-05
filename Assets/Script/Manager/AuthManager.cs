@@ -133,7 +133,7 @@ public class AuthManager : MonoBehaviour
     #region Private Fields
     private string accessToken;
     private string refreshToken;
-    private UserData currentUser;
+    public UserData currentUser;
     private bool isAuthenticated = false;
     private float tokenTimestamp;
     private Coroutine autoRefreshCoroutine;
@@ -158,7 +158,7 @@ public class AuthManager : MonoBehaviour
     private void Start()
     {
         // Auto login khi start game
-        StartCoroutine(AutoLogin());
+        // StartCoroutine(AutoLogin());
     }
 
     private void OnDestroy()

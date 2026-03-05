@@ -1,25 +1,38 @@
 using Mirror;
 
-// Client → Server: muốn tìm trận
-public struct MsgJoinQueue : NetworkMessage { }
+// ── Client → Server ───────────────────────────────────────────────
+public struct MsgJoinQueue   : NetworkMessage { public string playerName; }
+public struct MsgCancelMatch : NetworkMessage { }
+public struct MsgCreateParty : NetworkMessage { public string playerName; }
+public struct MsgJoinParty   : NetworkMessage { public string partyCode; public string playerName; }
+public struct MsgKickMember  : NetworkMessage { public int targetConnId; }
+public struct MsgStartParty  : NetworkMessage { }
+public struct MsgLeaveParty  : NetworkMessage { }
 
-// Client → Server: muốn tạo party
-public struct MsgCreateParty : NetworkMessage { }
+// ── Server → Client ───────────────────────────────────────────────
+public struct MsgMatchFound     : NetworkMessage { public string[] playerNames; }
+public struct MsgMatchCancelled : NetworkMessage { }
 
-// Client → Server: muốn vào party bằng mã
-public struct MsgJoinParty : NetworkMessage
-{
-    public string partyCode;
-}
-
-// Server → Client: phản hồi sau khi tạo party
 public struct MsgPartyCreated : NetworkMessage
 {
     public string partyCode;
+    public int    myConnId;   // server gửi connId của chính client đó
 }
 
-// Server → Client: phản hồi lỗi
-public struct MsgError : NetworkMessage
+public struct MsgPartyUpdated : NetworkMessage
 {
-    public string message;
+    public PartyMemberData[] members;
+    public int leaderConnId;
+    public int myConnId;      // server gửi connId của chính client đó
+}
+
+public struct MsgPartyKicked   : NetworkMessage { }
+public struct MsgPartyStarting : NetworkMessage { }
+public struct MsgError         : NetworkMessage { public string message; }
+
+// ── Data ──────────────────────────────────────────────────────────
+public struct PartyMemberData : NetworkMessage
+{
+    public int    connId;
+    public string playerName;
 }
