@@ -13,8 +13,6 @@ public class MyNetworkManager : NetworkManager
     public int playersPerMatch = 2;
     public float countdownSeconds = 15f;
 
-    [Header("Battle References")]
-    [SerializeField] private GameObject playerPrefab;
 
     // ══════════════════════════════════════════════════════════════
     // EVENTS
@@ -168,20 +166,8 @@ public class MyNetworkManager : NetworkManager
         OnConnected?.Invoke();
     }
 
-    public override void OnStartClient()
-    {
-        base.OnStartClient();
-
-        if (playerPrefab != null)
-        {
-            NetworkClient.RegisterPrefab(playerPrefab);
-            Debug.Log("[Client] PlayerPrefab registered.");
-        }
-        else
-        {
-            Debug.LogError("[Client] playerPrefab chưa được gán trong Inspector!");
-        }
-    }
+    // Mirror's NetworkManager.OnStartClient() tự động register playerPrefab.
+    // KHÔNG cần gọi lại RegisterPrefab thủ công (gây lỗi duplicate).
 
     public override void OnClientDisconnect()
     {
