@@ -1,89 +1,72 @@
+using Mirror;
 using UnityEngine;
-using UnityEngine.InputSystem;
+using Unity.Cinemachine;
 
-[RequireComponent(typeof(Rigidbody2D))]
-public class PlayerController : MonoBehaviour
+public class PlayerController : NetworkBehaviour
 {
+    [Header("Settings")]
     [SerializeField] private float moveSpeed = 5f;
-    [SerializeField] private Animator animator;
 
     private Rigidbody2D rb;
-    private InputSystem_Actions inputActions;
-    private Vector2 moveInput;
-    private Camera mainCamera;
-    private bool facingRight = false;
+    private Animator    animator;
+    private Vector2     moveInput;
 
-    private void Awake()
+    // ══════════════════════════════════════════════════════════════
+    // LIFECYCLE
+    // ══════════════════════════════════════════════════════════════
+
+    void Awake()
     {
-        rb = GetComponent<Rigidbody2D>();
-        inputActions = new InputSystem_Actions();
-        mainCamera = Camera.main;
-        
-        rb.gravityScale = 0f; 
-        rb.constraints = RigidbodyConstraints2D.FreezeRotation;
+        rb              = GetComponent<Rigidbody2D>();
+        animator        = GetComponent<Animator>();
+        rb.gravityScale = 0f;
     }
 
-    private void OnEnable()
+    public override void OnStartLocalPlayer()
     {
-        inputActions.Player.Enable();
-    }
+        Debug.Log("[PlayerController] LocalPlayer started.");
 
-    private void OnDisable()
-    {
-        inputActions.Player.Disable();
-    }
-
-    private void Update()
-    {
-        moveInput = inputActions.Player.Move.ReadValue<Vector2>();
-        
-        HandleFlipTowardsMouse();
-        UpdateAnimation();
-    }
-
-    private void FixedUpdate()
-    {
-        Vector2 movement = moveInput.normalized * moveSpeed;
-        rb.linearVelocity = movement;
-    }
-
-    private void HandleFlipTowardsMouse()
-    {
-        Vector2 mousePosition = GetMouseWorldPosition();
-        float mouseX = mousePosition.x - transform.position.x;
-
-        if (mouseX > 0 && !facingRight)
+        // ── Cinemachine 3.x — Tracking Target ────────────────────
+        var vcam = FindFirstObjectByType<CinemachineCamera>();
+        if (vcam != null)
         {
-            Flip();
+            // Cinemachine 3.x dùng Target thay vì Follow/LookAt trực tiếp
+            vcam.Target.TrackingTarget = transform;
+            vcam.Target.LookAtTarget   = transform;
+            Debug.Log("[PlayerController] VCam Tracking Target → localPlayer.");
         }
-        else if (mouseX < 0 && facingRight)
+        else
         {
-            Flip();
+            Debug.LogWarning("[PlayerController] Không tìm thấy CinemachineCamera!");
         }
+        // ─────────────────────────────────────────────────────────
     }
 
-    private Vector2 GetMouseWorldPosition()
+    // ══════════════════════════════════════════════════════════════
+    // INPUT & MOVEMENT
+    // ══════════════════════════════════════════════════════════════
+
+    void Update()
     {
-        Vector2 mouseScreenPosition = Mouse.current.position.ReadValue();
-        Vector3 worldPosition = mainCamera.ScreenToWorldPoint(mouseScreenPosition);
-        worldPosition.z = 0;
-        return worldPosition;
+        if (!isLocalPlayer) return;
+
+        moveInput = new Vector2(
+            Input.GetAxisRaw("Horizontal"),
+            Input.GetAxisRaw("Vertical")
+        ).normalized;
+
+        if (moveInput.x != 0)
+            transform.localScale = new Vector3(
+                moveInput.x > 0 ? 1 : -1, 1, 1
+            );
+
+        if (animator != null)
+            animator.SetBool("isMoving", moveInput != Vector2.zero);
     }
 
-    private void Flip()
+    void FixedUpdate()
     {
-        facingRight = !facingRight;
-        Vector3 scale = transform.localScale;
-        scale.x *= -1;
-        transform.localScale = scale;
+        if (!isLocalPlayer) return;
+        rb.linearVelocity = moveInput * moveSpeed;
     }
-
-    private void UpdateAnimation()
-    {
-        float speed = moveInput.magnitude;
-        animator.SetFloat("Speed", speed);
-    }
-
-    // Getter để Factory có thể check facing
-    public bool IsFacingRight() => facingRight;
 }
