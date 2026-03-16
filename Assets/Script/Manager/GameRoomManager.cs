@@ -35,6 +35,7 @@ public class GameRoomManager : MonoBehaviour
     #region State
     private ColyseusClient              _client;
     private ColyseusRoom<GameStateSchema> _room;
+    private StateCallbackStrategy<GameStateSchema> _callbacks;  // giữ ref tránh GC
 
     /// <summary>SessionId trong GameRoom (dùng để identify bản thân trong State.players).</summary>
     public string SessionId   { get; private set; }
@@ -116,9 +117,10 @@ public class GameRoomManager : MonoBehaviour
         _room.OnMessage<AllReadyMsg>      ("allReady",    msg => OnAllReady?.Invoke(msg));
         _room.OnMessage<PlayerLeftGameMsg>("playerLeft",  msg => OnPlayerLeft?.Invoke(msg));
 
-        // Schema state — subscribe player add/remove
-        _room.State.players.OnAdd    += (key, player) => OnPlayerAdded?.Invoke(key, player);
-        _room.State.players.OnRemove += (key, player) => OnPlayerRemoved?.Invoke(key, player);
+        // Schema state — subscribe player add/remove (API đúng cho SDK này)
+        _callbacks = Callbacks.Get(_room);
+        _callbacks.OnAdd   (state => state.players, (key, player) => OnPlayerAdded?.Invoke(key, player));
+        _callbacks.OnRemove(state => state.players, (key, player) => OnPlayerRemoved?.Invoke(key, player));
     }
     #endregion
 
