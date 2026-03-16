@@ -1,103 +1,221 @@
+// UIManager.cs
+// Điều phối màn hình lobby:
+//   - Auto-connect Colyseus khi scene load
+//   - 3 nút chính: FindMatch / CreateParty / JoinParty
+//   - Mở / đóng QueuePanel và PartyPanel
+//
+// Hierarchy gợi ý:
+//   UIManager (GameObject)
+//   ├── MainView
+//   │   ├── Txt_ConnectionStatus
+//   │   ├── Btn_FindMatch
+//   │   ├── Btn_CreateParty
+//   │   ├── Input_InviteCode
+//   │   └── Btn_JoinParty
+//   ├── QueuePanel      ← chứa QueueUI
+//   └── PartyPanel      ← chứa PartyUI
+using System;
+using System.Threading.Tasks;
+using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
 
 public class UIManager : MonoBehaviour
 {
-    public static UIManager Instance { get; private set; }
+    private enum ActivePanel { None, Queue, Party }
 
-    [Header("Panels")]
-    public GameObject panelHome;
-    public GameObject panelMatchmaking;
-    public GameObject panelParty;
+    #region Inspector References
+    [Header("Views")]
+    [SerializeField] private GameObject _mainView;
+    [SerializeField] private GameObject _queuePanel;
+    [SerializeField] private GameObject _partyPanel;
 
-    [Header("Button")]
-    public Button btnFindMatch;
-    public Button btnCreateParty;
-    public Button btnJoinParty;
-    public Button btnMatchMakingCancel;
-    public Button btnPartyCancel;
+    [Header("Main View — Buttons")]
+    [SerializeField] private Button _btnFindMatch;
+    [SerializeField] private Button _btnCreateParty;
+    [SerializeField] private Button _btnJoinParty;
 
-    private enum ActiveFlow { None, Matchmaking, Party }
-    private ActiveFlow activeFlow = ActiveFlow.None;
+    [Header("Main View — Join by Code")]
+    [SerializeField] private TMP_InputField _inputInviteCode;
 
-    void Awake() => Instance = this;
-    void Start()
+    [Header("Main View — Status")]
+    [SerializeField] private TMP_Text _txtConnectionStatus;
+    #endregion
+
+    #region Private State
+    private MatchmakingRoomManager _mgr;
+    private ActivePanel _activePanel = ActivePanel.None;
+    #endregion
+
+    #region Unity Lifecycle
+    private async void Start()
     {
-        ShowHome();
-        btnFindMatch.onClick.AddListener(OnClickFindMatch);
-        btnCreateParty.onClick.AddListener(OnClickCreateParty);
-        btnJoinParty.onClick.AddListener(OnClickOpenJoinParty);
-        btnMatchMakingCancel.onClick.AddListener(OnClickCancel);
-        btnPartyCancel.onClick.AddListener(OnClickCancel);
-    }
-
-    // ── Subscribe / Unsubscribe ───────────────────────────────────
-    void OnEnable()
-    {
-        if (MyNetworkManager.Instance == null) return;
-        MyNetworkManager.Instance.OnDisconnected += HandleDisconnected;
-    }
-
-    void OnDisable()
-    {
-        if (MyNetworkManager.Instance == null) return;
-        MyNetworkManager.Instance.OnDisconnected -= HandleDisconnected;
-    }
-
-    // ══════════════════════════════════════════════════════════════
-    // PANEL CONTROL
-    // ══════════════════════════════════════════════════════════════
-
-    public void ShowHome()
-    {
-        panelHome.SetActive(true);
-        panelMatchmaking.SetActive(false);
-        panelParty.SetActive(false);
-        activeFlow = ActiveFlow.None;
-    }
-
-    // ══════════════════════════════════════════════════════════════
-    // BUTTON CALLBACKS
-    // ══════════════════════════════════════════════════════════════
-
-    public void OnClickFindMatch()
-    {
-        activeFlow = ActiveFlow.Matchmaking;
-        panelHome.SetActive(false);
-        panelMatchmaking.SetActive(true);
-        UIMatchmaking.Instance.StartFindMatch(AuthManager.Instance.currentUser.username);
-    }
-
-    public void OnClickCreateParty()
-    {
-        activeFlow = ActiveFlow.Party;
-        panelHome.SetActive(false);
-        panelParty.SetActive(true);
-        UIParty.Instance.StartCreateParty(AuthManager.Instance.currentUser.username);
-    }
-
-    public void OnClickOpenJoinParty()
-    {
-        activeFlow = ActiveFlow.Party;
-        panelHome.SetActive(false);
-        panelParty.SetActive(true);
-        UIParty.Instance.ShowJoinInput(AuthManager.Instance.currentUser.username);
-    }
-
-    public void OnClickCancel()
-    {
-        switch (activeFlow)
+        _mgr = MatchmakingRoomManager.Instance;
+        if (_mgr == null)
         {
-            case ActiveFlow.Matchmaking: UIMatchmaking.Instance.CancelFindMatch(); break;
-            case ActiveFlow.Party:       UIParty.Instance.LeaveAndGoHome();        break;
+            Debug.LogError("[UIManager] MatchmakingRoomManager không tìm thấy trong scene!");
+            return;
         }
-        ShowHome();
+
+        SubscribeEvents();
+        RegisterButtons();
+
+        // Ban đầu ẩn hết panels, hiện MainView với buttons bị khoá
+        _queuePanel.SetActive(false);
+        _partyPanel.SetActive(false);
+        _mainView.SetActive(true);
+        SetLobbyButtons(interactable: false);
+        SetStatus("Đang kết nối server...");
+
+        // Auto-connect ngay khi vào scene
+        try
+        {
+            await _mgr.ConnectAsync();
+            SetStatus("Sẵn sàng");
+            SetLobbyButtons(interactable: true);
+        }
+        catch (Exception e)
+        {
+            SetStatus($"Kết nối thất bại: {e.Message}");
+            Debug.LogError($"[UIManager] ConnectAsync failed: {e.Message}");
+        }
     }
 
-    // ══════════════════════════════════════════════════════════════
-    // EVENT HANDLERS
-    // ══════════════════════════════════════════════════════════════
+    private void OnDestroy()
+    {
+        UnsubscribeEvents();
+    }
+    #endregion
 
-    // Bị disconnect ngoài ý muốn → về Home
-    private void HandleDisconnected() => ShowHome();
+    #region Button Setup
+    private void RegisterButtons()
+    {
+        _btnFindMatch  .onClick.AddListener(OnClickFindMatch);
+        _btnCreateParty.onClick.AddListener(OnClickCreateParty);
+        _btnJoinParty  .onClick.AddListener(OnClickJoinParty);
+    }
+    #endregion
+
+    #region Button Handlers
+    private void OnClickFindMatch()
+    {
+        if (!_mgr.IsConnected) return;
+        _mgr.JoinQueue();
+        OpenPanel(ActivePanel.Queue);
+    }
+
+    private void OnClickCreateParty()
+    {
+        if (!_mgr.IsConnected) return;
+        _mgr.CreateParty(maxMembers: 2);
+        OpenPanel(ActivePanel.Party);
+    }
+
+    private void OnClickJoinParty()
+    {
+        if (!_mgr.IsConnected) return;
+        string code = _inputInviteCode.text.Trim().ToUpper();
+        if (string.IsNullOrEmpty(code))
+        {
+            SetStatus("Vui lòng nhập mã mời.");
+            return;
+        }
+        _mgr.JoinPartyByCode(code);
+        OpenPanel(ActivePanel.Party);
+    }
+    #endregion
+
+    #region Event Subscription
+    private void SubscribeEvents()
+    {
+        _mgr.OnQueueLeft      += HandleQueueLeft;
+        _mgr.OnMatchStart     += HandleMatchStart;
+        _mgr.OnMatchCancelled += HandleMatchCancelled;
+        _mgr.OnPartyLeft      += HandlePartyLeft;
+        _mgr.OnKicked         += HandleKicked;
+        _mgr.OnPartyExpired   += HandlePartyExpired;
+    }
+
+    private void UnsubscribeEvents()
+    {
+        if (_mgr == null) return;
+        _mgr.OnQueueLeft      -= HandleQueueLeft;
+        _mgr.OnMatchStart     -= HandleMatchStart;
+        _mgr.OnMatchCancelled -= HandleMatchCancelled;
+        _mgr.OnPartyLeft      -= HandlePartyLeft;
+        _mgr.OnKicked         -= HandleKicked;
+        _mgr.OnPartyExpired   -= HandlePartyExpired;
+    }
+    #endregion
+
+    #region MMRoom Event Handlers
+    private void HandleQueueLeft() => ReturnToLobby();
+
+    private async void HandleMatchStart(MatchStartMsg msg)
+    {
+        Debug.Log($"[UIManager] MatchStart — roomId:{msg.roomId}");
+
+        string mmSessionId = MatchmakingRoomManager.Instance?.SessionId;
+        try
+        {
+            await GameRoomManager.Instance.ConnectAsync(msg.roomId, mmSessionId);
+            // TODO: SceneManager.LoadScene("GameScene");
+        }
+        catch (Exception e)
+        {
+            Debug.LogError($"[UIManager] GameRoom connect failed: {e.Message}");
+            ReturnToLobby();
+        }
+    }
+
+    private void HandleMatchCancelled(MatchCancelledMsg msg)
+    {
+        // Queue match bị huỷ → đóng QueuePanel về lobby
+        // Party match bị huỷ → UIManager giữ PartyPanel mở (PartyUI tự cập nhật)
+        if (_activePanel == ActivePanel.Queue)
+        {
+            SetStatus("Trận bị huỷ. Tìm lại nhé!");
+            ReturnToLobby();
+        }
+    }
+
+    private void HandlePartyLeft()           => ReturnToLobby();
+    private void HandleKicked(KickedMsg _)   => ReturnToLobby();
+    private void HandlePartyExpired(PartyExpiredMsg _) => ReturnToLobby();
+    #endregion
+
+    #region Panel Management
+    private void OpenPanel(ActivePanel panel)
+    {
+        _mainView.SetActive(false);
+        _queuePanel.SetActive(panel == ActivePanel.Queue);
+        _partyPanel.SetActive(panel == ActivePanel.Party);
+        _activePanel = panel;
+    }
+
+    private void ReturnToLobby()
+    {
+        _queuePanel.SetActive(false);
+        _partyPanel.SetActive(false);
+        _mainView.SetActive(true);
+        _activePanel = ActivePanel.None;
+        SetLobbyButtons(interactable: true);
+        SetStatus("Sẵn sàng");
+    }
+    #endregion
+
+    #region Helpers
+    private void SetStatus(string text)
+    {
+        if (_txtConnectionStatus != null)
+            _txtConnectionStatus.text = text;
+    }
+
+    private void SetLobbyButtons(bool interactable)
+    {
+        _btnFindMatch  .interactable = interactable;
+        _btnCreateParty.interactable = interactable;
+        _btnJoinParty  .interactable = interactable;
+    }
+    #endregion
 }

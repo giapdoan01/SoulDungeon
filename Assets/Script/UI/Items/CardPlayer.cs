@@ -6,12 +6,12 @@ public class CardPlayer : MonoBehaviour
 {
     [Header("UI")]
     public TMP_Text   txtName;
-    public GameObject btnKick; 
+    public GameObject btnKick;
 
-    private int         connId;
-    private Action<int> onKickClicked;
+    private string         _sessionId;
+    private Action<string> _onKickClicked;
 
-    // ── Matchmaking: không cần Kick ──────────────────────────────
+    // ── Queue / MatchFound: không cần Kick ───────────────────────
     public void SetInfo(string name)
     {
         txtName.text = name;
@@ -19,14 +19,14 @@ public class CardPlayer : MonoBehaviour
     }
 
     // ── Party: leader truyền callback kick ───────────────────────
-    public void SetInfo(string name, int connectionId, bool showKick, Action<int> kickCallback)
+    public void SetInfo(string name, string sessionId, bool showKick, Action<string> kickCallback)
     {
-        txtName.text  = name;
-        connId        = connectionId;
-        onKickClicked = kickCallback;
+        txtName.text   = name;
+        _sessionId     = sessionId;
+        _onKickClicked = kickCallback;
         if (btnKick != null) btnKick.SetActive(showKick);
     }
 
     // Kéo vào OnClick của Btn_Kick trong Inspector
-    public void OnClickKick() => onKickClicked?.Invoke(connId);
+    public void OnClickKick() => _onKickClicked?.Invoke(_sessionId);
 }
