@@ -40,9 +40,28 @@ public class GameReadyMsg
 }
 
 [Serializable]
+public class PlayerSnapshot
+{
+    public string sessionId;
+    public string username;
+    public int    characterIndex;
+}
+
+[Serializable]
 public class AllReadyMsg
 {
-    public string matchId;
+    public string           matchId;
+    public PlayerSnapshot[] players;  // snapshot day du — spawn tu day, khong phu thuoc schema sync
+}
+
+[Serializable]
+public class PlayerMovedMsg
+{
+    public string sessionId;
+    public float  x;
+    public float  y;
+    public float  facing;
+    public float  speed;   // 0 = dung (IDLE), >0 = dang di chuyen (MOVE)
 }
 
 [Serializable]

@@ -2029,7 +2029,6 @@ RectTransform:
   m_Children:
   - {fileID: 7078978}
   - {fileID: 2132579506}
-  - {fileID: 1070345265685569675}
   - {fileID: 59625486}
   - {fileID: 1981936907}
   m_Father: {fileID: 2009486573}
@@ -2453,7 +2452,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!224 &753531036
 RectTransform:
   m_ObjectHideFlags: 0
@@ -4228,6 +4227,7 @@ MonoBehaviour:
   _btnJoinParty: {fileID: 18912369}
   _inputInviteCode: {fileID: 7658139083220618229}
   _txtConnectionStatus: {fileID: 5503392304975417631}
+  _battleSceneName: BattleScene
 --- !u!114 &1862701645
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -4248,6 +4248,51 @@ MonoBehaviour:
   _playerListContainer: {fileID: 370095444}
   _cardPlayerPrefab: {fileID: 1951568989815299803, guid: a5902ee04dac34a4985f670ae9e6ce44, type: 3}
   _btnCancelMatch: {fileID: 1981936903}
+--- !u!1 &1967024048
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1967024050}
+  - component: {fileID: 1967024049}
+  m_Layer: 0
+  m_Name: GameRoomManager
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!114 &1967024049
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1967024048}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e97e2445034b7344c8edbb8277567dbc, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::GameRoomManager
+  _serverUrl: ws://localhost:3001
+--- !u!4 &1967024050
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1967024048}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 18.0661, y: 8.88562, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1981936902
 GameObject:
   m_ObjectHideFlags: 0
@@ -4427,6 +4472,7 @@ RectTransform:
   m_Children:
   - {fileID: 753531036}
   - {fileID: 610614495}
+  - {fileID: 1070345265685569675}
   m_Father: {fileID: 432379956}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
@@ -5258,7 +5304,7 @@ RectTransform:
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 1070345265481832513}
-  m_Father: {fileID: 610614495}
+  m_Father: {fileID: 2009486573}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
@@ -8128,3 +8174,4 @@ SceneRoots:
   - {fileID: 1360673143}
   - {fileID: 1862701643}
   - {fileID: 1000571898}
+  - {fileID: 1967024050}

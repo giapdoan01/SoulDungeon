@@ -41,6 +41,11 @@ public class GameRoomManager : MonoBehaviour
     public string SessionId   { get; private set; }
     public bool   IsConnected => _room != null;
 
+    // Cache các message quan trọng để GameSceneManager catch-up khi Start() chạy
+    // trễ hơn so với lúc message được nhận (do scene loading delay)
+    public AllReadyMsg  CachedAllReady  { get; private set; }
+    public GameReadyMsg CachedGameReady { get; private set; }
+
     /// <summary>Truy cập trực tiếp GameState để đọc vị trí / characterIndex của tất cả player.</summary>
     public GameStateSchema State => _room?.State;
     #endregion
@@ -54,6 +59,9 @@ public class GameRoomManager : MonoBehaviour
 
     /// <summary>Một player rời phòng.</summary>
     public event Action<PlayerLeftGameMsg> OnPlayerLeft;
+
+    /// <summary>Server broadcast vị trí mới của remote player (thay schema sync cho movement).</summary>
+    public event Action<PlayerMovedMsg> OnPlayerMoved;
 
     /// <summary>State.players thêm player mới (dùng để spawn character).</summary>
     public event Action<string, PlayerGameStateSchema> OnPlayerAdded;
@@ -97,7 +105,10 @@ public class GameRoomManager : MonoBehaviour
         try { await _room.Leave(); } catch (Exception e) { Debug.LogWarning($"[GameRoom] Leave: {e.Message}"); }
         finally
         {
-            _room      = null;
+            _room           = null;
+            SessionId       = null;
+            CachedGameReady = null;
+            CachedAllReady  = null;
             SessionId  = null;
             Debug.Log("[GameRoom] Disconnected.");
         }
@@ -108,14 +119,20 @@ public class GameRoomManager : MonoBehaviour
     private void RegisterHandlers()
     {
         // Custom messages
-        _room.OnMessage<GameReadyMsg>     ("gameReady",   msg =>
+        _room.OnMessage<GameReadyMsg>("gameReady", msg =>
         {
-            SessionId = msg.sessionId;
+            SessionId       = msg.sessionId;
+            CachedGameReady = msg;   // cache lai cho GameSceneManager catch-up
             Debug.Log($"[GameRoom] gameReady — mySessionId:{SessionId}");
             OnGameReady?.Invoke(msg);
         });
-        _room.OnMessage<AllReadyMsg>      ("allReady",    msg => OnAllReady?.Invoke(msg));
-        _room.OnMessage<PlayerLeftGameMsg>("playerLeft",  msg => OnPlayerLeft?.Invoke(msg));
+        _room.OnMessage<AllReadyMsg>("allReady", msg =>
+        {
+            CachedAllReady = msg;    // cache lai — quan trong! GameSceneManager co the chua Start() kip
+            OnAllReady?.Invoke(msg);
+        });
+        _room.OnMessage<PlayerLeftGameMsg>("playerLeft",   msg => OnPlayerLeft?.Invoke(msg));
+        _room.OnMessage<PlayerMovedMsg>   ("playerMoved",  msg => OnPlayerMoved?.Invoke(msg));
 
         // Schema state — subscribe player add/remove (API đúng cho SDK này)
         _callbacks = Callbacks.Get(_room);
@@ -141,14 +158,15 @@ public class GameRoomManager : MonoBehaviour
     /// Gửi vị trí + hướng nhìn lên server. Gọi trong FixedUpdate hoặc khi có thay đổi.
     /// facing: góc degrees (0 = phải, 180 = trái).
     /// </summary>
-    public void SendMove(float x, float y, float facing)
+    public void SendMove(float x, float y, float facing, float speed)
     {
         if (_room == null || State?.status != "playing") return;
         _ = _room.Send("move", new Dictionary<string, object>
         {
             { "x",      x      },
             { "y",      y      },
-            { "facing", facing }
+            { "facing", facing },
+            { "speed",  speed  }   // [ANIMATION] 0=dung, 1=di chuyen
         });
     }
     #endregion

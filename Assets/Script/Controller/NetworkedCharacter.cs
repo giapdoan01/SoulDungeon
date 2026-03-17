@@ -1,35 +1,53 @@
 // NetworkedCharacter.cs
-// Gắn vào mỗi character trong GameScene.
-// - Local player  : đọc input → gửi move lên server, áp dụng locally ngay
-// - Remote player : đọc state từ GameRoomManager.State và nội suy vị trí
+// Gan vao moi character prefab trong BattleScene.
 //
-// Cách dùng:
-//   1. Spawn character → gọi Init(sessionId, isLocalPlayer)
-//   2. Script tự xử lý còn lại
+// ┌─────────────────────────────────────────────────────────────────┐
+// │  LUONG DONG BO ANIMATION                                        │
+// │                                                                  │
+// │  LOCAL player:                                                   │
+// │    Doc input → tinh speed → set Animator.Speed NGAY             │
+// │                           → gui speed len server                 │
+// │                                                                  │
+// │  REMOTE player:                                                  │
+// │    Nhan "playerMoved" message → lay speed trong message          │
+// │                               → set Animator.Speed              │
+// │    (Animator tu quyet dinh IDLE hay MOVE)                        │
+// │                                                                  │
+// │  KEY INSIGHT:                                                    │
+// │    Khong dong bo ten animation — dong bo THAM SO (speed)        │
+// │    Animator tren moi may tu chay dung animation                  │
+// └─────────────────────────────────────────────────────────────────┘
 using UnityEngine;
 
 [RequireComponent(typeof(Rigidbody2D))]
+[RequireComponent(typeof(Animator))]
 public class NetworkedCharacter : MonoBehaviour
 {
-    // ── Config ─────────────────────────────────────────────────────
     [Header("Movement")]
     [SerializeField] private float _moveSpeed    = 5f;
-    [SerializeField] private float _lerpSpeed    = 15f;   // nội suy remote player
-    [SerializeField] private float _sendInterval = 0.05f; // 20Hz
+    [SerializeField] private float _lerpSpeed    = 15f;
+    [SerializeField] private float _sendInterval = 0.05f;
 
-    // ── State ──────────────────────────────────────────────────────
+    // ── Components ─────────────────────────────────────────────────
+    private Rigidbody2D _rb;
+    private Animator    _anim;
+
+    // Ten parameter trong Animator Controller (phai dat dung y chang)
+    private static readonly int SpeedParam = Animator.StringToHash("Speed");
+    //                                        ↑ dung Hash thay string de nhanh hon
+
+    // ── Network State ──────────────────────────────────────────────
     private string _sessionId;
     private bool   _isLocalPlayer;
 
-    private Rigidbody2D _rb;
-
-    // Local: tracking gửi
+    // Local: theo doi gia tri cuoi da gui de tranh gui trung lap
     private float _sendTimer;
-    private float _lastSentX, _lastSentY, _lastSentFacing;
+    private float _lastSentX, _lastSentY, _lastSentFacing, _lastSentSpeed;
 
-    // Remote: target position nhận từ server
+    // Remote: target vi tri nhan tu server, dung de lerp
     private Vector2 _targetPos;
     private float   _targetFacing;
+    private float   _targetSpeed;  // [ANIMATION] speed nhan tu server
 
     // ── Init ───────────────────────────────────────────────────────
     public void Init(string sessionId, bool isLocalPlayer)
@@ -37,23 +55,35 @@ public class NetworkedCharacter : MonoBehaviour
         _sessionId     = sessionId;
         _isLocalPlayer = isLocalPlayer;
         _rb            = GetComponent<Rigidbody2D>();
+        _anim          = GetComponent<Animator>();
+
+        _rb.bodyType = isLocalPlayer ? RigidbodyType2D.Dynamic : RigidbodyType2D.Kinematic;
 
         if (isLocalPlayer)
         {
-            // Gửi characterIndex ngay khi vào (dùng index mặc định 0; thay bằng selection UI sau)
             GameRoomManager.Instance?.SendSetCharacter(0);
         }
         else
         {
-            // Remote: đọc vị trí ban đầu từ state
-            var state = GameRoomManager.Instance?.State;
-            if (state != null && state.players.ContainsKey(_sessionId))
-            {
-                var p = state.players[_sessionId];
-                transform.position = new Vector3(p.x, p.y, 0f);
-                _targetPos    = transform.position;
-                _targetFacing = p.facing;
-            }
+            // [ANIMATION SYNC - BUOC DANG KY]
+            // Remote player lang nghe event OnPlayerMoved tu GameRoomManager.
+            // Moi khi server broadcast "playerMoved", event nay se fire.
+            var mgr = GameRoomManager.Instance;
+            if (mgr != null) mgr.OnPlayerMoved += HandlePlayerMoved;
+        }
+    }
+
+    private void OnDestroy()
+    {
+        if (_isLocalPlayer)
+        {
+            if (_rb != null) _rb.linearVelocity = Vector2.zero;
+        }
+        else
+        {
+            // Huy dang ky khi character bi destroy, tranh memory leak
+            var mgr = GameRoomManager.Instance;
+            if (mgr != null) mgr.OnPlayerMoved -= HandlePlayerMoved;
         }
     }
 
@@ -61,80 +91,95 @@ public class NetworkedCharacter : MonoBehaviour
     private void Update()
     {
         if (_isLocalPlayer)
-            HandleLocalMovement();
+            HandleLocalInput();
         else
-            HandleRemoteMovement();
+            LerpRemotePosition();
     }
 
-    // ── Local Player ───────────────────────────────────────────────
-    private void HandleLocalMovement()
+    // ── LOCAL PLAYER ───────────────────────────────────────────────
+    private void HandleLocalInput()
     {
-        // Đọc input WASD / Arrow
         float h = Input.GetAxisRaw("Horizontal");
         float v = Input.GetAxisRaw("Vertical");
-        Vector2 dir = new Vector2(h, v).normalized;
+        Vector2 inputDir = new(h, v);
 
-        _rb.velocity = dir * _moveSpeed;
+        _rb.linearVelocity = inputDir.normalized * _moveSpeed;
 
-        // Tính facing (0 = phải, 180 = trái)
-        float facing = _lastSentFacing;
-        if (h > 0)       facing = 0f;
-        else if (h < 0)  facing = 180f;
-        else if (v > 0)  facing = 90f;
-        else if (v < 0)  facing = 270f;
+        // [ANIMATION - LOCAL]
+        // speed = do lon cua input: 0 khi dung, 1 khi di chuyen
+        // Khong dung normalized vi diagonal van la magnitude 1 sau normalize
+        float speed = Mathf.Clamp01(inputDir.magnitude);
 
-        // Flip sprite theo facing
+        // Ap dung Animator NGAY, khong can cho server tra loi
+        // → local player thay animation mua khong co do tre
+        _anim.SetFloat(SpeedParam, speed);
+
+        // Facing theo vi tri chuot
+        Vector3 mouseWorld = Camera.main.ScreenToWorldPoint(Input.mousePosition);
+        Vector2 toMouse    = (Vector2)(mouseWorld - transform.position);
+        float facing       = Mathf.Atan2(toMouse.y, toMouse.x) * Mathf.Rad2Deg;
+        if (facing < 0f) facing += 360f;
+
         ApplyFacingVisual(facing);
 
-        // Gửi state lên server theo interval
+        // Gui len server theo interval
         _sendTimer -= Time.deltaTime;
-        if (_sendTimer <= 0f)
-        {
-            _sendTimer = _sendInterval;
-            float px = transform.position.x;
-            float py = transform.position.y;
+        if (_sendTimer > 0f) return;
+        _sendTimer = _sendInterval;
 
-            // Chỉ gửi khi có thay đổi
-            if (px != _lastSentX || py != _lastSentY || facing != _lastSentFacing)
-            {
-                GameRoomManager.Instance?.SendMove(px, py, facing);
-                _lastSentX      = px;
-                _lastSentY      = py;
-                _lastSentFacing = facing;
-            }
-        }
+        float px = transform.position.x;
+        float py = transform.position.y;
+
+        // Chi gui khi co thay doi (bao gom ca speed — anim co the thay doi khi dung lai)
+        bool changed = px != _lastSentX || py != _lastSentY
+                    || facing != _lastSentFacing || speed != _lastSentSpeed;
+        if (!changed) return;
+
+        // [ANIMATION SYNC - BUOC GUI]
+        // Gui speed len server cung voi vi tri va facing.
+        // Server se relay speed nay den tat ca remote clients.
+        var mgr = GameRoomManager.Instance;
+        if (mgr != null) mgr.SendMove(px, py, facing, speed);
+
+        _lastSentX      = px;
+        _lastSentY      = py;
+        _lastSentFacing = facing;
+        _lastSentSpeed  = speed;
     }
 
-    // ── Remote Player ──────────────────────────────────────────────
-    private void HandleRemoteMovement()
+    // ── REMOTE PLAYER ──────────────────────────────────────────────
+
+    // [ANIMATION SYNC - BUOC NHAN]
+    // Ham nay duoc goi khi GameRoomManager nhan duoc message "playerMoved" tu server.
+    // Server gui message nay cho tat ca client TRU nguoi gui.
+    private void HandlePlayerMoved(PlayerMovedMsg msg)
     {
-        // Poll state mỗi frame (state patch đến qua Colyseus schema sync)
-        var state = GameRoomManager.Instance?.State;
-        if (state == null || !state.players.ContainsKey(_sessionId)) return;
+        // Loc: moi NetworkedCharacter lang nghe tat ca message,
+        // nhung chi xu ly message cua player tuong ung voi minh
+        if (msg.sessionId != _sessionId) return;
 
-        var p = state.players[_sessionId];
-        _targetPos    = new Vector2(p.x, p.y);
-        _targetFacing = p.facing;
+        _targetPos    = new Vector2(msg.x, msg.y);
+        _targetFacing = msg.facing;
 
-        // Nội suy mượt đến vị trí target
+        // [ANIMATION SYNC - AP DUNG]
+        // Nhan speed tu message, set Animator de chay dung animation.
+        // Animator Controller tu quyet dinh: Speed > 0.1 → MOVE, else → IDLE
+        _targetSpeed  = msg.speed;
+        _anim.SetFloat(SpeedParam, _targetSpeed);
+    }
+
+    // Chay moi frame: lerp mo den vi tri target nhan tu server
+    private void LerpRemotePosition()
+    {
         transform.position = Vector2.Lerp(transform.position, _targetPos, Time.deltaTime * _lerpSpeed);
-
-        // Flip sprite
         ApplyFacingVisual(_targetFacing);
     }
 
     // ── Visual ─────────────────────────────────────────────────────
     private void ApplyFacingVisual(float facing)
     {
-        // facing 0 = phải → scale.x dương; 180 = trái → scale.x âm
         Vector3 s = transform.localScale;
-        s.x = (facing > 90f && facing < 270f) ? -Mathf.Abs(s.x) : Mathf.Abs(s.x);
+        s.x = (facing > 90f && facing < 270f) ? Mathf.Abs(s.x) : -Mathf.Abs(s.x);
         transform.localScale = s;
-    }
-
-    private void OnDestroy()
-    {
-        if (_isLocalPlayer && _rb != null)
-            _rb.velocity = Vector2.zero;
     }
 }

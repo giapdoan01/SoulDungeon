@@ -15,9 +15,9 @@
 //   ├── QueuePanel      ← chứa QueueUI
 //   └── PartyPanel      ← chứa PartyUI
 using System;
-using System.Threading.Tasks;
 using TMPro;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 using UnityEngine.UI;
 
 public class UIManager : MonoBehaviour
@@ -40,6 +40,9 @@ public class UIManager : MonoBehaviour
 
     [Header("Main View — Status")]
     [SerializeField] private TMP_Text _txtConnectionStatus;
+
+    [Header("Scene")]
+    [SerializeField] private string _battleSceneName = "BattleScene";
     #endregion
 
     #region Private State
@@ -154,16 +157,20 @@ public class UIManager : MonoBehaviour
     private async void HandleMatchStart(MatchStartMsg msg)
     {
         Debug.Log($"[UIManager] MatchStart — roomId:{msg.roomId}");
+        SetStatus("Đang kết nối phòng chiến...");
 
         string mmSessionId = MatchmakingRoomManager.Instance?.SessionId;
         try
         {
             await GameRoomManager.Instance.ConnectAsync(msg.roomId, mmSessionId);
-            // TODO: SceneManager.LoadScene("GameScene");
+            // ConnectAsync thành công → load BattleScene
+            // GameSceneManager sẽ catch-up state ngay khi Start() chạy
+            SceneManager.LoadScene(_battleSceneName);
         }
         catch (Exception e)
         {
             Debug.LogError($"[UIManager] GameRoom connect failed: {e.Message}");
+            SetStatus("Kết nối phòng chiến thất bại!");
             ReturnToLobby();
         }
     }
